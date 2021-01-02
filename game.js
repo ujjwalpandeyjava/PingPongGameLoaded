@@ -135,7 +135,7 @@ function update() {
     let player = (ball.x < cvs.width / 2) ? user : com;
     if (collisioin(ball, player)) {
         //Where the ball hit the player
-        let collidePoint = ball.y - (player.y + player.height);
+        let collidePoint = ball.y - (player.y + player.height / 2);
 
         //Normalization
         collidePoint = collidePoint / (player.height / 2);
