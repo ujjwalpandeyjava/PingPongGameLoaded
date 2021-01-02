@@ -1,0 +1,22 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+div{
+    min-height: 40px;
+    padding: 30px;
+}
+#body{
+    background-color: rgb(3, 4, 36);
+    /* background-color: #030420eb; */
+    padding: 55px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    font-size: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+#gameCanvas{
+    box-shadow: 0px 0px 7px 1px white, 0px 0px 5px 4px #44af86, 0px 0px 10px 6px #51ff;}
