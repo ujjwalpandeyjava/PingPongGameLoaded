@@ -75,7 +75,8 @@ function render() {
     drawNet();
 
     //draw the score
-    drawText(user.score, cvs.width / 4, cvs.height / 5, "WHITE"); drawText(com.score, 3 * cvs.width / 4, cvs.height / 5, "WHITE");
+    drawText(user.score, cvs.width / 4, cvs.height / 5, "WHITE");
+    drawText(com.score, 3 * cvs.width / 4, cvs.height / 5, "WHITE");
 
     //draw paddles
     drawRect(user.x, user.y, user.width, user.height, user.color);
@@ -86,8 +87,88 @@ function render() {
 
 }
 
+//control user paddle
+cvs.addEventListener("mousemove", movePaddle)
+function movePaddle(evt) {
+    let rect = cvs.getBoundingClientRect();
+    user.y = evt.clientY - rect.top - user.height / 2;
+}
+
+//collision detection 
+function collisioin(b, p) {
+    b.top = b.y - b.radius;
+    b.bottom = b.y + b.radius;
+    b.left = b.x - b.radius;
+    b.right = b.x + b.radius;
+
+    p.top = p.y;
+    p.bottom = p.y + p.height;
+    p.left = p.x;
+    p.right = p.x + p.width;
+
+    return (b.right >= p.left && b.bottom > p.top && b.left < p.right && b.top < p.bottom);
+}
+
+//Reset ball
+function resetBall() {
+    ball.x = cvs.width / 2;
+    ball.y = cvs.height / 2;
+
+    ball.speed = 5;
+    ball.velocityX = -ball.velocityX;
+
+}
+
+//update: pos, movement, score ,etc
+function update() {
+    ball.x += ball.velocityX;
+    ball.y += ball.velocityY;
+
+    //simple AI to control com paddle
+    let computerLevel = 0.1;
+    com.y += (ball.y - (com.y + com.height / 2)) * computerLevel;
+
+    if (ball.y + ball.radius > cvs.height || ball.y - ball.radius < 0) {
+        ball.velocityY = -ball.velocityY;
+    }
+
+    let player = (ball.x < cvs.width / 2) ? user : com;
+    if (collisioin(ball, player)) {
+        //Where the ball hit the player
+        let collidePoint = ball.y - (player.y + player.height);
+
+        //Normalization
+        collidePoint = collidePoint / (player.height / 2);
+
+        //Calculate angle in Radian
+        let angleRad = collidePoint * Math.PI / 4;
+
+        //X direction of the ball when it's hit
+        let direction = (ball.x < cvs.width / 2) ? 1 : -1;
+
+        //Change velocityX and velocityY
+        ball.velocityX = direction * ball.speed * Math.cos(angleRad);
+        ball.velocityY = ball.speed * Math.sin(angleRad);
+
+        //Everytime the ball hit a paddle, we encrese its speed
+        ball.speed += 0.1;
+    }
+    //Update the score
+    if (ball.x - ball.radius < 0) {
+        //the computer wins
+        com.score++
+        resetBall();
+    } else if (ball.x + ball.radius > cvs.width) {
+        //The user wins
+        user.score++
+        resetBall();
+    }
+
+}
+
 //game init
 function game() {
+    update();
     render();
 }
 
