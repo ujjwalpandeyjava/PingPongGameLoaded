@@ -3,11 +3,12 @@
     margin: 0;
     box-sizing: border-box;
 }
-div{
+div {
     min-height: 40px;
     padding: 30px;
 }
-#body{
+#body {
+    min-width: 750px;
     background-color: rgb(3, 4, 36);
     /* background-color: #030420eb; */
     padding: 55px;
@@ -18,5 +19,10 @@ div{
     align-items: center;
     justify-content: center;
 }
-#gameCanvas{
-    box-shadow: 0px 0px 7px 1px white, 0px 0px 5px 4px #44af86, 0px 0px 10px 6px #51ff;}
+#gameCanvas {
+    box-shadow: 0px 0px 7px 1px white, 0px 0px 5px 4px #44af86, 0px 0px 10px 6px #51ff;
+}
+.data {
+    /* text-shadow: 0px 8px 16px #c22929, 1px 0px 16px #c78e27; */
+    text-shadow: 0px -1px 20px rgb(0 255 223 / 1);
+}
